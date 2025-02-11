@@ -10,6 +10,7 @@ import adminRouter from "./routes/Admin.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
+dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
@@ -21,17 +22,18 @@ app.use(cors({
   }));
 app.use(express.json());
 app.use('/uploads',express.static(path.join(__dirname,"uploads")))
-dotenv.config();
+
 app.use(checkForAuthentication);
 app.use('/user',userRouter);
 app.use('/posts',ristrictTo(["NORMAL","ADMIN"]),postRouter);
 app.use('/admin',ristrictTo(["ADMIN"]),adminRouter)
 mongoose.connect(process.env.MONGO_URI)
 .then(()=>{
-    app.listen(port,()=>{
-        console.log(`Successfully Connected To DataBase and Your App is Running At http://localhost:${port}`);
+    console.log(`Successfully Connected To Database`);
     })
 })
 .catch((error)=>{
-    console.log(error)
+   console.log("MongoDB Connection Error:", error);
 })
+
+export default app;
