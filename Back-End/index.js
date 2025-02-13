@@ -14,10 +14,10 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
-const port =  process.env.PORT || 3000;;
+const PORT =  process.env.PORT || 3000;;
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: true,
     credentials: true,
   }));
 app.use(express.json());
@@ -35,5 +35,6 @@ mongoose.connect(process.env.MONGO_URI)
 .catch((error)=>{
    console.log("MongoDB Connection Error:", error);
 })
-
-export default app;
+app.listen(PORT,()=>{
+    console.log("Server is running on ",PORT)
+})
