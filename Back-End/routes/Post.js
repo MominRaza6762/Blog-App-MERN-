@@ -1,4 +1,3 @@
-import fs from "fs";
 import multer from "multer";
 import express from "express";
 import {editPost,searchPost ,createPost,getPost ,getPostById ,deletePost} from '../controller/post.js'
@@ -14,10 +13,6 @@ const storage = multer.diskStorage({
 });
 
 const upload =multer({storage:storage});
-if(!fs.existsSync('uploads'))
-{
-fs.mkdirSync('uploads');
-}
 
 router.get('/search',searchPost);
 
